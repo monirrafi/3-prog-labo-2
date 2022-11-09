@@ -209,7 +209,7 @@ String strCle = JOptionPane.showInputDialog(null, "Entrez le numéro du livre à
 	int cle= Integer.parseInt(strCle);
 	//Livre livreSprimer = new Livre();
 
-	if(!rechercheCle(cle)){
+	if(!ctrlivre.md  (cle)){
 			JOptionPane.showMessageDialog(null, "le livre du numero "+ cle +" n' existe pas!!");
 			
 	}else{
