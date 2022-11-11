@@ -442,6 +442,7 @@ public String[] paneString(ArrayList<String> data,ArrayList<String> listeChamps,
 public int calculerTaille() {
 	return ctrlivre.CtrLivre_GetAll().size();
 }
+
 public DefaultTableModel remplirTable(String entree,String strCle) {
 	ArrayList<Livre> listeLivres = (ArrayList<Livre>) ctrlivre.CtrLivre_GetAll(); 	
 	String[] column = {"Numero","Titre","Numero Auteur","Annee","Nombre des pages","Cathegorie"};
