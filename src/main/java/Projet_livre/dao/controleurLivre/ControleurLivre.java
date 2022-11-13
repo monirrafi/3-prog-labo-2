@@ -16,21 +16,16 @@ public class ControleurLivre implements IActionsLivre {
     private ControleurLivre(){}
 
     public static synchronized ControleurLivre getControleurLivre() {
-        try {
+        //try {
             if (CtrLivre_Instance == null) {
                 CtrLivre_Instance = new ControleurLivre();
                 Dao_Instance = DaoLivre.getLivreDao();
             }
-            return CtrLivre_Instance;
+            return CtrLivre_Instance;/*
         } catch (Exception e) {
             // e.printStackTrace();
             throw new RuntimeException(e);
-        }
-    }
-    public String CtrLivre_Enregistrer(Livre livre) {
-        String message = null;
-        message = Dao_Instance.MdlLivre_Enregistrer(livre);
-        return message;
+        }*/
     }
 
     @Override
@@ -42,6 +37,13 @@ public class ControleurLivre implements IActionsLivre {
             }
         
     }
+
+    public String CtrLivre_Enregistrer(Livre livre) {
+        String message = null;
+        message = Dao_Instance.MdlLivre_Enregistrer(livre);
+        return message;
+    }
+
 
     @Override
     public Livre CtrLivre_GetById(int numLivre) {

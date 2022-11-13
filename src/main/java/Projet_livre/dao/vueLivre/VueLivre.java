@@ -11,7 +11,6 @@ import Projet_livre.dao.modelLivre.Livre;
 
 import java.awt.*;
 import java.io.*;
-import java.text.Normalizer;
 import java.util.*;
 import java.awt.event.*;
 
@@ -210,15 +209,15 @@ public void Suprimer() {
 			
 	}else{
 		ctrlivre.CtrLivre_Enlever(cle);
-		DefaultComboBoxModel modelAuteur = new DefaultComboBoxModel<>(getListeCBox("auteur"));
+		DefaultComboBoxModel<String> modelAuteur = new DefaultComboBoxModel<>(getListeCBox("auteur"));
 		cmbAuteur.removeAll();
 		cmbAuteur.setModel(modelAuteur);
 
-		DefaultComboBoxModel modelNum = new DefaultComboBoxModel<>(getListeCBox("num"));
+		DefaultComboBoxModel<String> modelNum = new DefaultComboBoxModel<>(getListeCBox("num"));
 		cmbNumero.removeAll();
 		cmbNumero.setModel(modelNum);
 
-		DefaultComboBoxModel modelCath = new DefaultComboBoxModel<>(getListeCBox("cathegorie"));
+		DefaultComboBoxModel<String> modelCath = new DefaultComboBoxModel<>(getListeCBox("cathegorie"));
 		cmbCathegorie.removeAll();
 		cmbCathegorie.setModel(modelCath);
 		lblSize.setText(" Le nombre des livres est " + calculerTaille() + " ");
@@ -295,11 +294,11 @@ public void modifierLivre() {
 		cmbAuteur.removeAll();
 		cmbAuteur.setModel(modelAuteur);
 
-		DefaultComboBoxModel modelNum = new DefaultComboBoxModel<>(getListeCBox("num"));
+		DefaultComboBoxModel<String> modelNum = new DefaultComboBoxModel<>(getListeCBox("num"));
 		cmbNumero.removeAll();
 		cmbNumero.setModel(modelNum);
 
-		DefaultComboBoxModel modelCath = new DefaultComboBoxModel<>(getListeCBox("cathegorie"));
+		DefaultComboBoxModel<String> modelCath = new DefaultComboBoxModel<>(getListeCBox("cathegorie"));
 		cmbCathegorie.removeAll();
 		cmbCathegorie.setModel(modelCath);
 		lblSize.setText(" Le nombre des livres est " + calculerTaille() + " ");
@@ -494,13 +493,6 @@ public  String[] getListeCBox(String choix){
 
 		//chargerLivres();
 		String[] retour =new String[1];
-
-		int num=0;
-		String  titre = "";
-		int auteur = 0;
-		int annee = 0;
-		int pages = 0;
-		String cathegorie="";
 		ArrayList<String>  liste = new ArrayList<String>();
 		ArrayList<String>  listeTmp = new ArrayList<String>();
 		for(Livre livre:ctrlivre.CtrLivre_GetAll()){		

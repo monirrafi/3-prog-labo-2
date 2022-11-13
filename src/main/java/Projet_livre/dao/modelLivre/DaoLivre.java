@@ -18,8 +18,9 @@ public class DaoLivre implements ILivre {
 
     // MySQL
     //private static final String PILOTE = "com.mysql.jdbc.Driver";
+    private static final String NOM_BD = "bdLivres";
     private static final String FICHIER_TXT = "src/main/java/Projet_livre/dao/modelLivre/livres.txt";
-    private static final String URL_BD = "jdbc:mysql://localhost/bd_Biblio";
+    private static final String URL_BD = "jdbc:mysql://localhost/" +NOM_BD;     //bd_Biblio";
     private static final String USAGER = "root";
     private static final String PASS = "";
 
@@ -38,7 +39,7 @@ public class DaoLivre implements ILivre {
     private DaoLivre(){};
 
     public static void verifierBD() {
-        String mabase = "bd_Biblio";
+//        String mabase = "bd_Biblio";
         boolean trouve =false;
         try {
             //Class.forName("com.mysql.jdbc.Driver");
@@ -48,14 +49,14 @@ public class DaoLivre implements ILivre {
             ResultSet rs1 = st1.executeQuery("show databases;");
             while (rs1.next()) {
                 // ici tu fait le traitement que tu veux avec le résultat de la requette, notament vérifier l'éxistence de ta base de données
-                if (rs1.getString(1).equalsIgnoreCase(mabase)){
+                if (rs1.getString(1).equalsIgnoreCase(NOM_BD)){
                     trouve = true;
                     break;
                 }
             }
         
             if (trouve == false){ 
-                int reponse =JOptionPane.showConfirmDialog(null,"la Base de Données" + mabase +" n'existe pas\n Voulez vous la creer ?");
+                int reponse =JOptionPane.showConfirmDialog(null,"la Base de Données " + NOM_BD +" n'existe pas\n Voulez vous la creer ?");
 
                 if(reponse==0){
                     try {
@@ -64,7 +65,10 @@ public class DaoLivre implements ILivre {
                         } catch (IOException e) {
                             e.printStackTrace();
                         } 
+                }else{
+                    System.exit(0);
                 }
+    
             }
         }
         catch(SQLException e) {
@@ -74,44 +78,39 @@ public class DaoLivre implements ILivre {
     }
 
     public  void remplirBD() {
+        int compteur =0;
         String ligne;
         String []elems;
     try {
         BufferedReader  data = new BufferedReader(new InputStreamReader(new FileInputStream(FICHIER_TXT),StandardCharsets.ISO_8859_1));
         
         ligne = data.readLine().trim();
-        //int i=0;
         while (ligne != null) {
            elems=ligne.split(";");
-//           System.out.println(ligne);
            Livre livre =new Livre(Integer.parseInt(elems[0]),elems[1],Integer.parseInt(elems[2]),
            Integer.parseInt(elems[3]),Integer.parseInt(elems[4]),elems[5]);
-           System.out.println(MdlLivre_Enregistrer(livre)+ "No " + elems[0]);
+           MdlLivre_Enregistrer(livre);
+           compteur++;
            ligne = data.readLine();
-           //i++;
         }
        data.close();
+       JOptionPane.showMessageDialog(null, compteur + " livres sont enregistrés dans la table livre");
         
     } catch (Exception e) {
-        // TODO: handle exception
     } 
   
     }
     public static void createDB() throws IOException {
-		//Getting the connection
-    if(conn == null){    
+        String msg="";
+        if(conn == null){    
 	 
             try {
                 conn = DriverManager.getConnection("jdbc:mysql://localhost/", USAGER,PASS);
-                //conn = DriverManager.getConnection(URL_BD, USAGER, PASS);
-                    //Creating the Statement
-                
                 Statement stmt1 = conn.createStatement();
-                // Statement stmt2 = conn.createStatement();
-                //Query to create a database
-                String query1 = "CREATE database bd_Biblio";
-                String query2="alter database bd_Biblio charset=utf8";
-                String query3 = "USE bd_Biblio";
+
+                String query1 = "CREATE database "+ NOM_BD;
+                String query2="alter database "+ NOM_BD+" charset=utf8";
+                String query3 = "USE "+ NOM_BD;
                 String query4 = "CREATE TABLE livre (numLivre int not null"; 
                 query4 += ",titreLivre varchar(100),Auteur int,Annee int,Pages int,Cathegorie varchar(30),";
                 query4 += " CONSTRAINT livre_pk PRIMARY KEY (numLivre))";
@@ -121,19 +120,24 @@ public class DaoLivre implements ILivre {
                 
                 stmt1.execute(query3);
                 stmt1.execute(query4);
-                System.out.println("Database created");
+                msg += "La base de données " + NOM_BD + " est crée\n";
+                msg += "La table livre est crée\n";
+                //System.out.println("Database created");
+                JOptionPane.showMessageDialog(null, msg);
+
                 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("Connection established......");
         }
         
 
-  }    
+  } 
+
     public static synchronized DaoLivre getLivreDao () {
         try {
             verifierBD();
+            //createTableLivre();
                 if (instanceDao == null) {
                     instanceDao = new DaoLivre();
                     conn = DriverManager.getConnection(URL_BD, USAGER, PASS);
