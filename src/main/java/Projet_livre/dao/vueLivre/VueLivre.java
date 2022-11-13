@@ -591,12 +591,5 @@ public void styleTable(Color bgColor,Color pColor) {
 	table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 }
 
-	 public static void main(String[] args) {
-		VueLivre frame = new VueLivre();
-		frame.setVisible(true);
-		//remplirArrayliste();
-	 }	
-
-
 }
 

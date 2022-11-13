@@ -18,7 +18,7 @@ public class DaoLivre implements ILivre {
 
     // MySQL
     //private static final String PILOTE = "com.mysql.jdbc.Driver";
-    private static final String NOM_BD = "bdLivres";
+    private static final String NOM_BD = "bdBiblio";
     private static final String FICHIER_TXT = "src/main/java/Projet_livre/dao/modelLivre/livres.txt";
     private static final String URL_BD = "jdbc:mysql://localhost/" +NOM_BD;     //bd_Biblio";
     private static final String USAGER = "root";
